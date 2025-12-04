@@ -4,5 +4,6 @@
     ./plugins.nix
 
     ./paths.nix
+    ./offline.nix
   ];
 }
