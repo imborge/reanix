@@ -18,10 +18,11 @@ Add ReaNix to your flake inputs:
 }
 ```
 
-Import ReaNix home-manager module:
+Import ReaNix home-manager module and use `programs.reanix`:
 ```nix
 home-manager.users.user = {
   imports = [ inputs.reanix.homeModules.default ];
+  programs.reanix.enable = true;
 }
 ```
 
