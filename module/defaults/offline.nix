@@ -6,8 +6,10 @@ in {
       ; Disable version checking
       [reaper]
       verchk=0
-    '';
 
-    # TODO: disable SWS version checking if the extension is enabled
+      ; Disable version checking
+      [SWS]
+      BR - StartupVersionCheck=0 0 0000000000
+    '';
   };
 }
