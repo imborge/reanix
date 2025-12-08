@@ -59,7 +59,7 @@ let
       NAME ${mrtnvgr-lib.strings.quote name}
 
       ${lib.optionalString (value.record.enable != null) ''
-        REC ${if value.record.enable then "1" else "0"} ${getRecordInput value} ${getRecordMode value} 0 0 0 0 0
+        REC ${if value.record.enable then "1" else "0"} ${getRecordInput value} 1 ${getRecordMode value} 0 0 0 0
       ''}
 
       ${lib.optionalString value.record.armOnSelect "AUTO_RECARM 1"}
