@@ -1,6 +1,7 @@
 { inputs, config, pkgs, lib, ... }:
 let
   mrtnvgr-lib = inputs.mrtnvgr.lib { inherit pkgs; };
+  inherit (mrtnvgr-lib.strings) unalias;
 
   cfg = config.programs.reanix;
 
@@ -13,12 +14,19 @@ let
         default = null;
       };
 
-      # Takes in an int, but supports aliases:
+      # Takes in an int string, but supports aliases:
       # - <none>, <all_midi>
       # note: isn't used when `record.enable` = null
       input = lib.mkOption {
         type = lib.types.singleLineStr;
         default = "<none>";
+      };
+
+      # Available aliases:
+      # - <input>, <midi_overdub>
+      mode = lib.mkOption {
+        type = lib.types.singleLineStr;
+        default = "<input>";
       };
 
       armOnSelect = lib.mkOption {
@@ -38,14 +46,20 @@ let
     "<none>" = "-1";
     "<all_midi>" = "5088";
   };
-  getRecordInput = x: mrtnvgr-lib.strings.unalias recordInputAliases x.record.input;
+  getRecordInput = x: unalias recordInputAliases x.record.input;
+
+  recordModeAliases = {
+    "<input>" = "0";
+    "<midi_overdub>" = "7";
+  };
+  getRecordMode = x: unalias recordModeAliases x.record.mode;
 
   mkTrackTemplate = name: value: pkgs.writeText "${name}.RTrackTemplate" ''
     <TRACK
       NAME ${mrtnvgr-lib.strings.quote name}
 
       ${lib.optionalString (value.record.enable != null) ''
-        REC ${if value.record.enable then "1" else "0"} ${getRecordInput value} 1 0 0 0 0 0
+        REC ${if value.record.enable then "1" else "0"} ${getRecordInput value} ${getRecordMode value} 0 0 0 0 0
       ''}
 
       ${lib.optionalString value.record.armOnSelect "AUTO_RECARM 1"}
