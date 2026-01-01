@@ -31,7 +31,7 @@ in {
         { inherit (value) source; }
     ) cfg.scripts;
 
-    programs.reanix.config."reaper-kb.ini" = let
+    programs.reanix.extraConfig."reaper-kb.ini" = let
       toHash = x: builtins.hashString "sha1" x;
 
       scriptRegistry = lib.mapAttrsToList (name: value: ''

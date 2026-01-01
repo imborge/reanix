@@ -12,13 +12,13 @@ let
 
   configApplyingScript = lib.mapAttrsToList (name: value: ''
     ${margesimpson}/bin/margesimpson -t .config/REAPER/${name} ${pkgs.writeText "${name}-patches" value}
-  '') (lib.removeAttrs cfg.config [ "reaper-kb.ini" ]);
+  '') (lib.removeAttrs cfg.extraConfig [ "reaper-kb.ini" ]);
 
   reaper-wrapped = pkgs.writeScriptBin "reaper" /* bash */ ''
     ${lib.concatStringsSep "\n" configApplyingScript}
 
     # TODO: remove this workaround when TODOs will be implemented
-    cat ${pkgs.writeText "reaper-kb" cfg.config."reaper-kb.ini"} > ~/.config/REAPER/reaper-kb.ini
+    cat ${pkgs.writeText "reaper-kb" cfg.extraConfig."reaper-kb.ini"} > ~/.config/REAPER/reaper-kb.ini
 
     ${cfg.hooks.preRun}
 
@@ -33,12 +33,7 @@ in {
       default = pkgs.reaper;
     };
 
-    defaults = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-    };
-
-    config = lib.mkOption {
+    extraConfig = lib.mkOption {
       type = with lib.types; attrsOf lines;
       default = { };
     };
@@ -48,6 +43,11 @@ in {
         type = lib.types.lines;
         default = "";
       };
+    };
+
+    defaults = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
     };
   };
 

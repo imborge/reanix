@@ -20,7 +20,7 @@ in {
   };
 
   config = lib.mkIf (cfg.enable && cfg.colors != []) {
-    programs.reanix.config."reaper.ini" = /* dosini */ ''
+    programs.reanix.extraConfig."reaper.ini" = /* dosini */ ''
       ; Custom colors
       [reaper]
       custcolors=${custColors}

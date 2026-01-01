@@ -12,7 +12,7 @@ in {
       "d ${peaks_path}"
     ];
 
-    programs.reanix.config."reaper.ini" = /* dosini */ ''
+    programs.reanix.extraConfig."reaper.ini" = /* dosini */ ''
       ; Save reapeaks in a cache directory
       [reaper]
       altpeaks=5

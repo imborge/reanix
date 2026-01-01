@@ -2,7 +2,7 @@
   cfg = config.programs.reanix;
 in {
   config = lib.mkIf cfg.defaults {
-    programs.reanix.config."reaper.ini" = /* dosini */ ''
+    programs.reanix.extraConfig."reaper.ini" = /* dosini */ ''
       ; Disable version checking
       [reaper]
       verchk=0
